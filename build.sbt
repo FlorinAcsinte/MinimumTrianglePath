@@ -12,7 +12,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       munit % Test,
       scalaLogging,
-      logback
+      logback,
+      scalaConfig
     )
   )
 

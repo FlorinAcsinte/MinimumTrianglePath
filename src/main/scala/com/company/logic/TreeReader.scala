@@ -6,7 +6,7 @@ import scala.io.Source
 import scala.util.Using
 
 object FileProps {
-  val filename = "src/main/resources/1.txt"
+  val filename = "src/main/resources/default.txt"
   val separator = " "
 }
 object TreeReader {

@@ -10,7 +10,7 @@ import com.typesafe.scalalogging._
 object TreeParser extends LazyLogging {
   type Tree = Array[Array[Int]]
 
-  val emptyResult = Result(Nil, 0)
+  private val emptyResult = Result(Nil, 0)
 
   def getShortestPath(tree: Tree): Result = {
     val resultBuffer = Array.fill[Result](tree.length)(emptyResult)
@@ -27,9 +27,9 @@ object TreeParser extends LazyLogging {
         val rightChild = resultOrDefault(j + 1, previousResultBuffer)
 
         resultBuffer(j) = if (leftChild.total < rightChild.total) {
-          Result(leftChild.path.appended(value), leftChild.total + value)
+          resultFromChild(leftChild, value)
         } else {
-          Result(rightChild.path.appended(value), rightChild.total + value)
+          resultFromChild(rightChild, value)
         }
       }
     }
@@ -38,7 +38,10 @@ object TreeParser extends LazyLogging {
     resultBuffer(0).copy(path = resultBuffer(0).path.reverse)
   }
 
-  def resultOrDefault(idx: Int, results: Array[Result]) = Try {
+  private def resultFromChild(child: Result, newValue: Int): Result =
+    Result(child.path.appended(newValue), child.total + newValue)
+
+  private def resultOrDefault(idx: Int, results: Array[Result]) = Try {
     results(idx)
   }.getOrElse(emptyResult)
 }
