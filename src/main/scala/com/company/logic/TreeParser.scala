@@ -5,6 +5,7 @@ import com.company.domain.Result
 import java.time.ZonedDateTime
 import scala.util.Try
 import com.typesafe.scalalogging._
+import scala.collection.parallel.CollectionConverters._
 
 
 object TreeParser extends LazyLogging {
@@ -20,7 +21,7 @@ object TreeParser extends LazyLogging {
     tree.indices.reverse.foreach { i =>
       val previousResultBuffer = resultBuffer.clone()
       logger.debug(s"Processing line ${i}")
-      tree(i).indices.foreach { j =>
+      tree(i).indices.par.foreach { j =>
         val value = tree(i)(j)
 
         val leftChild = resultOrDefault(j, previousResultBuffer)

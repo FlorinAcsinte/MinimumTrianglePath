@@ -13,7 +13,8 @@ lazy val root = (project in file("."))
       munit % Test,
       scalaLogging,
       logback,
-      scalaConfig
+      scalaConfig,
+      scalaParallel
     )
   )
 
