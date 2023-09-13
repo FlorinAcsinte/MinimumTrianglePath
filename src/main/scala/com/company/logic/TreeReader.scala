@@ -1,5 +1,7 @@
 package com.company.logic
 
+import com.company.logic.TreeParser.Tree
+
 import scala.io.Source
 import scala.util.Using
 
@@ -12,10 +14,13 @@ object TreeReader {
 
   def getContentFromFile() = getContentFromSource(Source.fromFile(FileProps.filename))
 
-  def getContentFromSource(source: Source): Array[Array[Int]] = {
+  def getContentFromString(str: String) = getContentFromSource(Source.fromString(str))
+
+  def getContentFromSource(source: Source): Tree = {
     Using(source) { file =>
       file.getLines
         .takeWhile(_.nonEmpty)
+        .filter(_.nonEmpty)
         .map(_
           .split(FileProps.separator)
           .filter(_.nonEmpty)

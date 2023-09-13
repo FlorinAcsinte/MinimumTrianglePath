@@ -5,10 +5,14 @@ import com.company.domain.Result
 import java.time.ZonedDateTime
 import scala.util.Try
 import com.typesafe.scalalogging._
+
+
 object TreeParser extends LazyLogging {
+  type Tree = Array[Array[Int]]
+
   val emptyResult = Result(Nil, 0)
 
-  def getShortestPath(tree: Array[Array[Int]]): Result = {
+  def getShortestPath(tree: Tree): Result = {
     val resultBuffer = Array.fill[Result](tree.length)(emptyResult)
 
     logger.info(s"Starting at ${ZonedDateTime.now()}")
@@ -31,7 +35,7 @@ object TreeParser extends LazyLogging {
     }
 
     logger.info(s"Finished at ${ZonedDateTime.now()}")
-    resultBuffer(0)
+    resultBuffer(0).copy(path = resultBuffer(0).path.reverse)
   }
 
   def resultOrDefault(idx: Int, results: Array[Result]) = Try {
